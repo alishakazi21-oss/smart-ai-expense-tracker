@@ -1,0 +1,18 @@
+{
+  "name": "smart-ai-expense-tracker-root",
+  "version": "1.0.0",
+  "description": "Smart AI Expense Tracker - First-Year College Project",
+  "scripts": {
+    "setup-frontend": "cd frontend && npm install",
+    "build-frontend": "cd frontend && npm run build",
+    "run-app": "cd backend && python app.py"
+  },
+  "keywords": [
+    "expense-tracker",
+    "ai-assistant",
+    "first-year-project",
+    "gemini-api"
+  ],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpendWise — Track Smarter</title>
+  <meta name="description" content="SpendWise — the smart expense tracker for students and professionals." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+
+<!-- ── Animated Background Shapes ── -->
+<div class="shapes-container">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+  <div class="shape shape-4"></div>
+  <div class="shape shape-5"></div>
+</div>
+
+<!-- ── Gradient Overlays ── -->
+<div class="overlay-top"></div>
+<div class="overlay-bottom"></div>
+<div class="overlay-bg"></div>
+
+<!-- ── Hero Content ── -->
+<main class="hero">
+
+  <!-- Badge -->
+  <div class="hero-badge" id="hero-badge">
+    <span class="badge-dot"></span>
+    <span>Smart Finance Tracker</span>
+  </div>
+
+  <!-- Title -->
+  <h1 class="hero-title" id="hero-title">
+    <span class="title-white">Track Smarter,</span>
+    <br />
+    <span class="title-gradient">Spend Wiser</span>
+  </h1>
+
+  <!-- Subtitle -->
+  <p class="hero-sub" id="hero-sub">
+    Take control of your finances with beautiful insights,<br class="hidden-mobile" />
+    real-time tracking and smart budget management.
+  </p>
+
+  <!-- Auth Card -->
+  <div class="auth-card" id="auth-card">
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <button class="tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="tab" id="tab-register" onclick="switchTab('register')">Create Account</button>
+    </div>
+
+    <!-- Login Form -->
+    <form class="auth-form" id="form-login" onsubmit="handleLogin(event)">
+      <div class="input-group">
+        <span class="input-icon">👤</span>
+        <input type="text" class="auth-input" id="login-username" placeholder="Username" required autocomplete="username" />
+      </div>
+      <div class="input-group">
+        <span class="input-icon">🔒</span>
+        <input type="password" class="auth-input" id="login-password" placeholder="Password" required autocomplete="current-password" />
+      </div>
+      <div class="auth-error" id="login-error"></div>
+      <button type="submit" class="auth-btn" id="login-btn">
+        <span id="login-btn-text">Sign In →</span>
+      </button>
+    </form>
+
+    <!-- Register Form -->
+    <form class="auth-form hidden" id="form-register" onsubmit="handleRegister(event)">
+      <div class="input-group">
+        <span class="input-icon">👤</span>
+        <input type="text" class="auth-input" id="reg-username" placeholder="Choose a username" required autocomplete="username" />
+      </div>
+      <div class="input-group">
+        <span class="input-icon">🔒</span>
+        <input type="password" class="auth-input" id="reg-password" placeholder="Password (min 6 chars)" required autocomplete="new-password" />
+      </div>
+      <div class="input-group">
+        <span class="input-icon">✅</span>
+        <input type="password" class="auth-input" id="reg-confirm" placeholder="Confirm password" required autocomplete="new-password" />
+      </div>
+      <div class="auth-error" id="reg-error"></div>
+      <button type="submit" class="auth-btn" id="reg-btn">
+        <span id="reg-btn-text">Create Account →</span>
+      </button>
+    </form>
+
+    <!-- Features -->
+    <div class="auth-features">
+      <div class="feature"><span>📊</span> Smart Dashboard</div>
+      <div class="feature"><span>🎯</span> Budget Goals</div>
+      <div class="feature"><span>📈</span> Analytics</div>
+    </div>
+  </div>
+
+</main>
+
+<script src="login.js"></script>
+</body>
+</html>

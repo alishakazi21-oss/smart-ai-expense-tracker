@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpendWise — Dashboard</title>
+  <meta name="description" content="SpendWise is a modern, beautiful expense tracker to manage your monthly budget and spending habits." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Sidebar ─────────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">💸</div>
+    <span class="brand-name">SpendWise</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-item active" id="nav-dashboard" onclick="showPage('dashboard')">
+      <span class="nav-icon">📊</span><span>Dashboard</span>
+    </a>
+    <a href="#" class="nav-item" id="nav-expenses" onclick="showPage('expenses')">
+      <span class="nav-icon">📋</span><span>Expenses</span>
+    </a>
+    <a href="#" class="nav-item" id="nav-analytics" onclick="showPage('analytics')">
+      <span class="nav-icon">📈</span><span>Analytics</span>
+    </a>
+    <a href="#" class="nav-item" id="nav-budget" onclick="showPage('budget')">
+      <span class="nav-icon">🎯</span><span>Budget</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="current-month" id="current-month-label"></div>
+  </div>
+</aside>
+
+<!-- ── Main Content ─────────────────────────────────────── -->
+<main class="main-content">
+
+  <!-- Header -->
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <button class="menu-toggle" id="menu-toggle">☰</button>
+      <h1 class="page-title" id="page-title">Dashboard</h1>
+    </div>
+    <div class="top-bar-right">
+      <input type="month" id="month-picker" class="month-picker" />
+      <button class="btn btn-primary" id="add-expense-btn" onclick="openModal()">+ Add Expense</button>
+      <div class="user-pill">
+        <div class="user-avatar">👤</div>
+        <span class="user-name" id="user-name">User</span>
+        <button class="logout-btn" onclick="logout()" title="Logout">↩</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Dashboard Page ── -->
+  <section class="page active" id="page-dashboard">
+
+    <div class="stats-grid">
+      <div class="stat-card stat-total">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <p class="stat-label">Total Spent</p>
+          <h2 class="stat-value" id="stat-total">₹0</h2>
+        </div>
+      </div>
+      <div class="stat-card stat-budget">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-info">
+          <p class="stat-label">Monthly Budget</p>
+          <h2 class="stat-value" id="stat-budget">₹0</h2>
+        </div>
+      </div>
+      <div class="stat-card stat-remaining">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+          <p class="stat-label">Remaining</p>
+          <h2 class="stat-value" id="stat-remaining">₹0</h2>
+        </div>
+      </div>
+      <div class="stat-card stat-count">
+        <div class="stat-icon">🧾</div>
+        <div class="stat-info">
+          <p class="stat-label">Transactions</p>
+          <h2 class="stat-value" id="stat-count">0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget Progress -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Budget Usage</h3>
+        <span class="badge" id="budget-pct-badge">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="budget-progress"></div>
+      </div>
+      <p class="progress-caption" id="budget-caption">Set a budget to track your spending</p>
+    </div>
+
+    <!-- Recent Expenses -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Recent Expenses</h3>
+        <a href="#" onclick="showPage('expenses')" class="see-all">See all →</a>
+      </div>
+      <div class="expense-list" id="recent-list">
+        <div class="empty-state">
+          <div class="empty-icon">🌟</div>
+          <p>No expenses yet. Add your first one!</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── Expenses Page ── -->
+  <section class="page" id="page-expenses">
+
+    <div class="filter-bar">
+      <select class="filter-select" id="filter-category" onchange="loadExpenses()">
+        <option value="">All Categories</option>
+        <option value="Food">🍕 Food</option>
+        <option value="Transport">🚗 Transport</option>
+        <option value="Shopping">🛍️ Shopping</option>
+        <option value="Entertainment">🎬 Entertainment</option>
+        <option value="Health">💊 Health</option>
+        <option value="Bills">📄 Bills</option>
+        <option value="Education">📚 Education</option>
+        <option value="Other">📦 Other</option>
+      </select>
+      <input type="text" class="filter-input" id="filter-search" placeholder="🔍 Search expenses..." oninput="loadExpenses()" />
+    </div>
+
+    <div class="card">
+      <div class="expense-list" id="expenses-list">
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <p>No expenses found.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── Analytics Page ── -->
+  <section class="page" id="page-analytics">
+
+    <div class="analytics-grid">
+      <div class="card">
+        <div class="card-header"><h3>Spending by Category</h3></div>
+        <div class="category-chart" id="category-chart"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>Category Breakdown</h3></div>
+        <div class="breakdown-list" id="breakdown-list"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── Budget Page ── -->
+  <section class="page" id="page-budget">
+
+    <div class="card budget-card">
+      <div class="budget-hero">
+        <div class="budget-icon">🎯</div>
+        <h2>Set Monthly Budget</h2>
+        <p>Define how much you want to spend this month</p>
+      </div>
+      <div class="budget-form">
+        <label class="form-label">Monthly Budget (₹)</label>
+        <input type="number" class="form-input budget-input" id="budget-input" placeholder="e.g. 20000" min="0" />
+        <button class="btn btn-primary btn-full" onclick="saveBudget()">💾 Save Budget</button>
+      </div>
+      <div class="budget-status" id="budget-status"></div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ── Add/Edit Expense Modal ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Add Expense</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="expense-id" />
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Title *</label>
+          <input type="text" class="form-input" id="exp-title" placeholder="e.g. Lunch at café" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Amount (₹) *</label>
+          <input type="number" class="form-input" id="exp-amount" placeholder="0.00" min="0" step="0.01" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select class="form-input" id="exp-category">
+            <option value="">Select category</option>
+            <option value="Food">🍕 Food</option>
+            <option value="Transport">🚗 Transport</option>
+            <option value="Shopping">🛍️ Shopping</option>
+            <option value="Entertainment">🎬 Entertainment</option>
+            <option value="Health">💊 Health</option>
+            <option value="Bills">📄 Bills</option>
+            <option value="Education">📚 Education</option>
+            <option value="Other">📦 Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date *</label>
+          <input type="date" class="form-input" id="exp-date" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Note (optional)</label>
+        <input type="text" class="form-input" id="exp-note" placeholder="Any additional note..." />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveExpense()">💾 Save Expense</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
